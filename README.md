@@ -1,6 +1,7 @@
 # About
 Kahoot.js is a library to interact with the Kahoot API. Currently, kahoot.js supports joining and interacting with quizes.
-***Installation requires Node.js 6.0.0 or higher.***
+***Installation requires Node.js 6.0.0 or higher.***<br>
+![NPM](https://nodei.co/npm/kahoot.js.png)
 
 # Basic Example
 ```js
@@ -31,15 +32,15 @@ client.on("quizEnd", () => {
 Kahoot client that can interact with quizes.
 
 **Events**<br>
-`on('ready')`, `on('join')` - Emitted when the client joins the game.<br>
-`on('quizStart', Quiz)`, `on('quiz', Quiz)` - Emitted when the quiz starts for the client. Passes a `Quiz` class.<br>
+`on('ready')` and `on('join')` - Emitted when the client joins the game.<br>
+`on('quizStart', Quiz)` and `on('quiz', Quiz)` - Emitted when the quiz starts for the client. Passes a `Quiz` class.<br>
 `on('question', Question)` - Emitted when the client recieves new question. This is NOT the same as the `questionStart`<br> event, which is emitted after the question has started. Passes a `Question` class.<br>
 `on('questionStart', Question)` - Emitted when a question starts. Passes a `Question` class.<br>
 `on('questionSubmit', QuestionSubmitEvent)` - Emitted when your answer has been submitted. Passes a `QuestionSubmitEvent` class.<br>
 `on('questionEnd', QuestionEndEvent)` - Emitted when a question ends. Passes a `QuestionEndEvent` class.<br>
 `on('finish', QuizFinishEvent)` - Emitted when the quiz ends. Passes a `QuizFinishEvent` class.<br>
 `on('finishText', FinishTextEvent)` - Emitted when the quiz finish text is sent. Passes a `FinishTextEvent` class.<br>
-`on('quizEnd')`, `on('disconnect')` - Emitted when the quiz closes, and the client is disconnected.<br>
+`on('quizEnd')` and `on('disconnect')` - Emitted when the quiz closes, and the client is disconnected.<br>
 <br>
 **Methods**<br>
 `join(sessionID, playerName)`<br>
