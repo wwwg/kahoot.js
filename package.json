@@ -1,0 +1,23 @@
+ 	{
+	"name": "kahoot.js",
+	"version": "1.0.0",
+	"description": "A library for interacting with Kahoot API.",
+	"author": "ww",
+	"main": "index.js",
+	"keywords": [
+		"kahoot",
+		"kahoot.js",
+		"kahoot client"
+	],
+	"dependencies": {
+		"ws": "*",
+		"promise": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wwwwwwwwwwwwwwwwwwwwwwwwwwwwww/kahoot.js"
+	},
+	"preferGlobal": true,
+	"license": "MIT"
+}
+  
