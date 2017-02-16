@@ -11,7 +11,9 @@
 	],
 	"dependencies": {
 		"ws": "*",
-		"promise": "*"
+		"promise": "*",
+		"utf-8-validate": "*",
+		"bufferutil": "*"
 	},
 	"repository": {
 		"type": "git",
