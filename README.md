@@ -24,4 +24,6 @@ client.on("quizEnd", () => {
 });
 ```
 
-# Documentation / How to use can be found in Documentation.md
+## Documentation / How to use can be found in Documentation.md<br>
+## Examples can be found in examples/<br>
+## More examples can be found in tests/<br>
