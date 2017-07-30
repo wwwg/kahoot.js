@@ -75,7 +75,7 @@ Parameters:
 
 ### QuestionSubmitEvent
 **Properties**  
-`message (String)` - The message sent by Kahoot after you sent in an answer.    
+`message (String)` - The message sent by Kahoot after you sent in an answer.  
 `client (Kahoot)` - The client attached to the event.  
 `quiz (Quiz)` - The quiz attached to the event.  
 `question (Question)` - The question attached to the event.

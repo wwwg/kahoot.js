@@ -1,4 +1,4 @@
-var Kahoot = require('kahoot.js');
+var Kahoot = require("kahoot.js");
 var k = new Kahoot;
 console.log("Joining kahoot...");
 k.join(9802345 /* Or any other kahoot token */, "kahoot.js").then(() => {
@@ -10,11 +10,11 @@ k.join(9802345 /* Or any other kahoot token */, "kahoot.js").then(() => {
 	    question.answer(0);
 	});
 	k.on("questionEnd", event => {
-		console.log('the question ended.');
+		console.log("the question ended.");
 		if (k.nemesis && k.nemesis.exists) {
-			console.log('i have a nemesis with name', nemesis.name);
+			console.log("i have a nemesis with name", nemesis.name);
 		} else {
-			console.log('i dont have a nemesis.');
+			console.log("i dont have a nemesis.");
 		}
 	});
 	k.on("quizEnd", () => {

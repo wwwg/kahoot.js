@@ -1,8 +1,8 @@
-const EventEmitter = require('events');
-var Promise = require('promise');
-var Assets = require('./Assets.js');
-var WSHandler = require('./WSHandler.js');
-var token = require('./token.js');
+const EventEmitter = require("events");
+var Promise = require("promise");
+var Assets = require("./Assets.js");
+var WSHandler = require("./WSHandler.js");
+var token = require("./token.js");
 
 class Kahoot extends EventEmitter {
 	constructor() {
@@ -21,11 +21,11 @@ class Kahoot extends EventEmitter {
 		var me = this;
 		return new Promise((fulfill, reject) => {
 			if (!session) {
-				reject('You need a sessionID to connect to a Kahoot!');
+				reject("You need a sessionID to connect to a Kahoot!");
 				return;
 			}
 			if (!name) {
-				reject('You need a name to connect to a Kahoot!');
+				reject("You need a name to connect to a Kahoot!");
 				return;
 			}
 			me.sessionID = session;
@@ -33,49 +33,49 @@ class Kahoot extends EventEmitter {
 			token.resolve(session, resolvedToken => {
 				me.token = resolvedToken;
 				me._wsHandler = new WSHandler(me.sessionID, me.token, me);
-				me._wsHandler.on('ready', () => {
+				me._wsHandler.on("ready", () => {
 					me._wsHandler.login(me.name);
 				});
-				me._wsHandler.on('joined', () => {
-					me.emit('ready');
-					me.emit('joined');
+				me._wsHandler.on("joined", () => {
+					me.emit("ready");
+					me.emit("joined");
 					fulfill();
 				});
-				me._wsHandler.on('quizData', quizInfo => {
+				me._wsHandler.on("quizData", quizInfo => {
 					me.quiz = new Assets.Quiz(quizInfo.name, quizInfo.type, quizInfo.qCount, me);
-					me.emit('quizStart', me.quiz);
-					me.emit('quiz', me.quiz);
+					me.emit("quizStart", me.quiz);
+					me.emit("quiz", me.quiz);
 				});
-				me._wsHandler.on('quizUpdate', updateInfo => {
+				me._wsHandler.on("quizUpdate", updateInfo => {
 					me.quiz.currentQuestion = new Assets.Question(updateInfo, me);
-					me.emit('question', me.quiz.currentQuestion);
+					me.emit("question", me.quiz.currentQuestion);
 				});
-				me._wsHandler.on('questionEnd', endInfo => {
+				me._wsHandler.on("questionEnd", endInfo => {
 					var e = new Assets.QuestionEndEvent(endInfo, me);
-					me.emit('questionEnd', e);
+					me.emit("questionEnd", e);
 				});
-				me._wsHandler.on('quizEnd', () => {
-					me.emit('quizEnd');
-					me.emit('disconnect');
+				me._wsHandler.on("quizEnd", () => {
+					me.emit("quizEnd");
+					me.emit("disconnect");
 				});
-				me._wsHandler.on('questionStart', () => {
-					me.emit('questionStart', me.quiz.currentQuestion);
+				me._wsHandler.on("questionStart", () => {
+					me.emit("questionStart", me.quiz.currentQuestion);
 				});
-				me._wsHandler.on('questionSubmit', message => {
+				me._wsHandler.on("questionSubmit", message => {
 					me.sendingAnswer = false;
 					var e = new Assets.QuestionSubmitEvent(message, me);
-					me.emit('questionSubmit', e);
+					me.emit("questionSubmit", e);
 					try {
 						me._qFulfill(e);
 					} catch(e) { }
 				});
-				me._wsHandler.on('finishText', data => {
+				me._wsHandler.on("finishText", data => {
 					var e = new Assets.FinishTextEvent(data);
-					me.emit('finishText', e);
+					me.emit("finishText", e);
 				});
-				me._wsHandler.on('finish', data => {
+				me._wsHandler.on("finish", data => {
 					var e = new Assets.QuizFinishEvent(data, me);
-					me.emit('finish', e);
+					me.emit("finish", e);
 				});
 			});
 		});
