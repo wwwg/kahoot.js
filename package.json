@@ -1,8 +1,8 @@
- 	{
+{
 	"name": "kahoot.js",
 	"version": "1.0.0",
 	"description": "A library for interacting with Kahoot API.",
-	"author": "ww",
+	"author": "wwwg",
 	"main": "index.js",
 	"keywords": [
 		"kahoot",
@@ -10,16 +10,23 @@
 		"kahoot client"
 	],
 	"dependencies": {
-		"ws": "*",
-		"promise": "*",
-		"utf-8-validate": "*",
-		"bufferutil": "*"
+		"bufferutil": "^3.0.2",
+		"promise": "^8.0.1",
+		"utf-8-validate": "^3.0.3",
+		"ws": "^3.1.0"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/wwwwwwwwwwwwwwwwwwwwwwwwwwwwww/kahoot.js"
+		"url": "https://github.com/wwwg/kahoot.js"
 	},
-	"preferGlobal": true,
+    "bugs": {
+        "url": "https://github.com/wwwg/kahoot.js/issues"
+    },
+    "contributors": [
+        "Casper Löfgren <casper.lofgren@hotmail.com>"
+    ],
+    "engines": {
+        "node": ">= 6.0.0"
+    },
 	"license": "MIT"
 }
-  
