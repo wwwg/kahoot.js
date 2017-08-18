@@ -1,7 +1,7 @@
-const EventEmitter = require('events');
-var Promise = require('promise');
-var WebSocket = require('ws');
-var consts = require('./consts.js');
+const EventEmitter = require("events");
+var Promise = require("promise");
+var WebSocket = require("ws");
+var consts = require("./consts.js");
 
 class WSHandler extends EventEmitter {
 	constructor(session, token, kahoot) {
@@ -16,23 +16,23 @@ class WSHandler extends EventEmitter {
 		this.firstQuizEvent = false;
 		this.lastReceivedQ = null;
 		this.ws = new WebSocket(consts.WSS_ENDPOINT + session + "/" + token, {
-			origin: 'https://kahoot.it/'
+			origin: "https://kahoot.it/"
 		});
 		// Create anonymous callbacks to prevent an event emitter loop
-		this.ws.on('open', () => {
+		this.ws.on("open", () => {
 			me.open();
 		});
-		this.ws.on('message', msg => {
+		this.ws.on("message", msg => {
 			me.message(msg);
 		});
-		this.ws.on('close', () => {
+		this.ws.on("close", () => {
 			me.connected = false;
 			me.close();
 		});
 		this.dataHandler = {
 			1: (data, content) => {
 				if (!me.kahoot.quiz.currentQuestion) {
-					me.emit('quizUpdate', {
+					me.emit("quizUpdate", {
 						questionIndex: content.questionIndex,
 						timeLeft: content.timeLeft,
 						type: content.gameBlockType,
@@ -40,7 +40,7 @@ class WSHandler extends EventEmitter {
 						ansMap: content.answerMap
 					});
 				} else if (content.questionIndex > me.kahoot.quiz.currentQuestion.index) {
-					me.emit('quizUpdate', {
+					me.emit("quizUpdate", {
 						questionIndex: content.questionIndex,
 						timeLeft: content.timeLeft,
 						type: content.gameBlockType,
@@ -50,10 +50,10 @@ class WSHandler extends EventEmitter {
 				}
 			},
 			2: (data, content) => {
-				me.emit('questionStart');
+				me.emit("questionStart");
 			},
 			3: (data, content) => {
-				me.emit('finish', {
+				me.emit("finish", {
 					playerCount: content.playerCount,
 					quizID: content.quizID,
 					rank: content.rank,
@@ -62,11 +62,11 @@ class WSHandler extends EventEmitter {
 				});
 			},
 			7: (data, content) => {
-				me.emit('questionSubmit', content.primaryMessage);
+				me.emit("questionSubmit", content.primaryMessage);
 			},
 			8: (data, content) => {
 				// console.log(data);
-				me.emit('questionEnd', {
+				me.emit("questionEnd", {
 					correctAnswers: content.correctAnswers,
 					correct: content.isCorrect,
 					points: content.points,
@@ -80,7 +80,7 @@ class WSHandler extends EventEmitter {
 			9: (data, content) => {
 				if (!me.firstQuizEvent) {
 					me.firstQuizEvent = true;
-					me.emit('quizData', {
+					me.emit("quizData", {
 						name: content.quizName,
 						type: content.quizType,
 						qCount: content.quizQuestionAnswers[0]
@@ -89,7 +89,7 @@ class WSHandler extends EventEmitter {
 			},
 			10: (data, content) => {
 				// The quiz has ended
-				me.emit('quizEnd');
+				me.emit("quizEnd");
 				try {
 					me.ws.close();
 				} catch (e) {
@@ -97,7 +97,7 @@ class WSHandler extends EventEmitter {
 				}
 			},
 			13: (data, content) => {
-				me.emit('finishText', {
+				me.emit("finishText", {
 					metal: content.podiumMedalType,
 					msg1: content.primaryMessage,
 					msg2: content.secondaryMessage
@@ -139,7 +139,7 @@ class WSHandler extends EventEmitter {
 		var me = this;
 		me.msgID++;
 		return [{
-			channel: '/service/controller',
+			channel: "/service/controller",
 			clientId: me.clientID,
 			data: {
 				content: JSON.stringify({
@@ -177,7 +177,7 @@ class WSHandler extends EventEmitter {
 	open() {
 		var me = this;
 		this.connected = true;
-		this.emit('open');
+		this.emit("open");
 		var r = [{
 			advice: {
 				interval: 0,
@@ -234,15 +234,15 @@ class WSHandler extends EventEmitter {
 				statusSubscribe.clientId = me.clientID;
 				statusSubscribe.subscription = "/service/status";
 				me.send(statusSubscribe);
-				me.emit('ready');
+				me.emit("ready");
 			}
 		} else if (data.data) {
 			if (data.data.error) {
-				me.emit('error', data.data.error);
+				me.emit("error", data.data.error);
 				return;
 			} else if (data.data.type == "loginResponse") {
 				// "/service/controller"
-				me.emit('joined');
+				me.emit("joined");
 			} else {
 				if (data.data.content) {
 					var cont = JSON.parse(data.data.content);
@@ -278,7 +278,7 @@ class WSHandler extends EventEmitter {
 	}
 	close() {
 		this.connected = false;
-		this.emit('close');
+		this.emit("close");
 	}
 }
 module.exports = WSHandler;

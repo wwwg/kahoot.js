@@ -1,5 +1,5 @@
-var https = require('https');
-var consts = require('./consts');
+var https = require("https");
+var consts = require("./consts");
 
 class TokenJS {
 	static requestToken(sessionID, callback) {
@@ -9,17 +9,17 @@ class TokenJS {
 			path: consts.TOKEN_ENDPOINT + sessionID + "/?" + (new Date).getTime(),
 			port: consts.ENDPOINT_PORT,
 			headers: {
-				'user-agent': 'kahoot.js',
-				'host': 'kahoot.it',
-				'referer': 'https://kahoot.it/',
-				'accept-language': 'en-US,en;q=0.8',
-				'accept': '*/*'
+				"user-agent": "kahoot.js",
+				"host": "kahoot.it",
+				"referer": "https://kahoot.it/",
+				"accept-language": "en-US,en;q=0.8",
+				"accept": "*/*"
 			}
 		}, res => {
-			res.on('data', chunk => {
+			res.on("data", chunk => {
 				// The first token is the session token, which is given as a header by the server encoded in base64
-				var token1 = res.headers['x-kahoot-session-token'];
-				var body = chunk.toString('utf8');
+				var token1 = res.headers["x-kahoot-session-token"];
+				var body = chunk.toString("utf8");
 				var bodyObject = null;
 				var challenge = "";
 				try {
@@ -32,15 +32,20 @@ class TokenJS {
 				var challenge = bodyObject.challenge;
 				callback(token1, challenge);
 			});
-		}).on('error', err => {
+		}).on("error", err => {
 			// TODO: better error handling
-			console.log('request error:', err);
+			console.log("request error:", err);
 		});
 	}
 	static solveChallenge(challenge) {
 		var solved = "";
 		// Prevent any logging from the challenge, by default it logs some debug info
-		challenge = challenge.replace('console.', '');
+		challenge = challenge.replace("console.", "");
+		// Make a few if-statements always return true as the functions are currently missing
+		challenge = challenge.replace("this.angular.isObject(offset)", "true");
+		challenge = challenge.replace("this.angular.isString(offset)", "true");
+		challenge = challenge.replace("this.angular.isDate(offset)", "true");
+		challenge = challenge.replace("this.angular.isArray(offset)", "true");
 		(() => {
 			// Concat the method needed in order to solve the challenge, then eval the string
 			var solver = Function(consts.EVAL_ + challenge);
@@ -51,7 +56,7 @@ class TokenJS {
 	}
 	static decodeBase64(b64) {
 		// for the session token
-		return new Buffer(b64, 'base64').toString('ascii');
+		return new Buffer(b64, "base64").toString("ascii");
 	}
 	static concatTokens(headerToken, challengeToken) {
 		// Combine the session token and the challenge token together to get the string needed to connect to the websocket endpoint
@@ -73,4 +78,4 @@ class TokenJS {
 		});
 	}
 }
-module.exports = TokenJS; 
+module.exports = TokenJS;
