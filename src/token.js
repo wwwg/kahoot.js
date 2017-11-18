@@ -18,6 +18,10 @@ class TokenJS {
 		}, res => {
 			res.on("data", chunk => {
 				// The first token is the session token, which is given as a header by the server encoded in base64
+				// Checking if the header is defined before continuing, basically checking if the room exists.
+				if (!res.headers["x-kahoot-session-token"]) {
+					return console.log("request error:", "Kahoot session header is undefined. (This normally means that the room no longer exists.)")
+				}
 				var token1 = res.headers["x-kahoot-session-token"];
 				var body = chunk.toString("utf8");
 				var bodyObject = null;
